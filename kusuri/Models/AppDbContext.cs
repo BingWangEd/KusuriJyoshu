@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
+
+namespace kusuri.Models.Models;
 
 public class AppDbContext : DbContext
 {
