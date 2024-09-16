@@ -1,0 +1,14 @@
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: kusuri
+    volumes:
+    - "./docker/preprocessing-db/raw_data:/raw_data"
+    - type: bind
+      source: ./docker/init
+      target: /docker-entrypoint-initdb.d
+    ports:
+      - 8080:5432
