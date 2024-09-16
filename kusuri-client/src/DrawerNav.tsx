@@ -19,6 +19,7 @@ import ListItemText from '@mui/material/ListItemText';
 import CreateIcon from '@mui/icons-material/Create';
 import MessageIcon from '@mui/icons-material/Message';
 import { ReactNode } from 'react';
+import { Link } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -138,20 +139,24 @@ const DrawerNav = ({ children }:{ children: ReactNode; }) => {
         <Divider />
         <List>
           <ListItem key={1} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <CreateIcon />
-              </ListItemIcon>
-              <ListItemText primary={"処方編集"} />
-            </ListItemButton>
+            <Link to="/edit" style={{ textDecoration: 'none' }}>
+              <ListItemButton>
+                <ListItemIcon>
+                  <CreateIcon />
+                </ListItemIcon>
+                <ListItemText primary={"処方編集"} />
+              </ListItemButton>
+            </Link>
           </ListItem>
           <ListItem key={2} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <MessageIcon />
-              </ListItemIcon>
-              <ListItemText primary={"チャット"} />
-            </ListItemButton>
+            <Link to="/chat" style={{ textDecoration: 'none' }}>
+              <ListItemButton>
+                <ListItemIcon>
+                  <MessageIcon />
+                </ListItemIcon>
+                <ListItemText primary={"チャット"} />
+              </ListItemButton>
+            </Link>
           </ListItem>
         </List>
       </Drawer>
