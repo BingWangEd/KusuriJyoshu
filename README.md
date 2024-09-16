@@ -14,3 +14,9 @@ port 5173
 ```
 npm run dev
 ```
+
+# Create .sql for docker
+```
+dotnet ef migrations add [migraiton_name]
+dotnet ef migrations script
+```
