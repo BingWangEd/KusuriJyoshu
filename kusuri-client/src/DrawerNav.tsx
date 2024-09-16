@@ -84,7 +84,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 const DrawerNav = ({ children }:{ children: ReactNode; }) => {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
 
   const handleDrawerOpen = () => {
     setOpen(true);
