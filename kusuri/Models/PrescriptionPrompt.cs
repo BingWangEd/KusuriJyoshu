@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using NodaTime;
 
-namespace kusuri.Models.Models;
+namespace kusuri.Models;
 
 [Index(nameof(Id), nameof(VersionId), IsUnique = true)]
 public class PrescriptionPrompt

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace kusuri.Models.Models;
+namespace kusuri.Models;
 
 public class AppDbContext : DbContext
 {
@@ -8,11 +8,11 @@ public class AppDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseNpgsql(
-            "Host=localhost;Database=kusuri;Username=postgres;Password=password",
+            "Host=localhost;Port=8080;Database=kusuri;Username=postgres;Password=password",
             npgsqlOptions =>
             {
                 npgsqlOptions.UseNodaTime()
-                    .MigrationsHistoryTable("__EFMigrationsHistory", "flatiron");
+                    .MigrationsHistoryTable("__EFMigrationsHistory", "kusuri");
             }
         );
 
