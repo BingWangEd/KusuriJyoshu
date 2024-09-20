@@ -7,6 +7,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { useCallback, useState } from 'react';
 import PromptEditor from './PromptEditor';
+import { usePrescriptionContext } from './usePrescriptionContext';
 
 interface IPromptCard {
 	id: number;
@@ -18,6 +19,7 @@ interface IPromptCard {
 const PromptCard = ({ id, date, content, patientId }: IPromptCard) => {
 	console.log("content: ", content);
 	const [editing, setEditing] = useState(false);
+	const { refetch } = usePrescriptionContext();
 
 	const deletePrompt = useCallback(async () => {
 		try {
@@ -29,12 +31,12 @@ const PromptCard = ({ id, date, content, patientId }: IPromptCard) => {
 				throw new Error("Network response was not ok");
 			}
 
-			const result = await response.json();
-			console.log(result);
+			console.log(response);
+			await refetch();
 		} catch (error) {
 			console.error(error);
 		}
-	}, []);
+	}, [refetch]);
 
 	const savePrompt = useCallback(async (content: string) => {
 		try {
@@ -48,12 +50,12 @@ const PromptCard = ({ id, date, content, patientId }: IPromptCard) => {
 				throw new Error("Network response was not ok");
 			}
 
-			const result = await response.json();
-			console.log(result);
+			await refetch();
+			console.log(response);
 		} catch (error) {
 			console.error(error);
 		}
-	}, []);
+	}, [refetch]);
 
 	return editing ? (
 		<PromptEditor

@@ -2,12 +2,12 @@ import { usePrescriptionContext } from "./usePrescriptionContext";
 import PromptCard from "./PromptCard";
 
 function ShowPrompts() {
-    const prompts = usePrescriptionContext();
+    const { prescriptions } = usePrescriptionContext();
 
     return (
         <>
             {
-                prompts.length > 0 && prompts.map(
+                prescriptions.length > 0 && prescriptions.map(
                     p => <PromptCard key={p.id} id={p.id} date={p.date} content={p.content} patientId={p.patientId}/>
                 )
             }
@@ -15,4 +15,4 @@ function ShowPrompts() {
     )
 }
 
-export default ShowPrompts
+export default ShowPrompts;

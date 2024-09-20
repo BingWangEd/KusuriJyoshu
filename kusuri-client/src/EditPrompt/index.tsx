@@ -27,7 +27,7 @@ function EditPrompt() {
         } catch (error) {
           console.error(error);
         }
-    }, []);
+    }, [setAdding]);
 
 
     return (

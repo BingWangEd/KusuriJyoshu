@@ -7,16 +7,18 @@ import SaveIcon from '@mui/icons-material/Save';
 import { useState } from 'react';
 import { TextField } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
+import { usePrescriptionContext } from './usePrescriptionContext';
 
 interface IPromptCard {
 	content: string;
     label: string;
-    save: (content: string) => void;
+    save: (content: string) => Promise<void>;
     cancel: () => void;
 }
 
 const PromptEditor = ({ label, content, save, cancel }: IPromptCard) => {
     const [prompt, setPrompt] = useState(content);
+    const { refetch } = usePrescriptionContext();
 
 	return (
 		<Card sx={{ marginBottom: "24px" }}>
@@ -37,7 +39,11 @@ const PromptEditor = ({ label, content, save, cancel }: IPromptCard) => {
 				</Typography>
 			</CardContent>
 			<CardActions>
-				<Button size="small" onClick={() => save(prompt)}><SaveIcon /></Button>
+				<Button size="small" onClick={async () => {
+                    await save(prompt);
+                    refetch();
+                    cancel();
+                }}><SaveIcon /></Button>
                 <Button size="small" onClick={cancel}><ClearIcon /></Button>
 			</CardActions>
 		</Card>
