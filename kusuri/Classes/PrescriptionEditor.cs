@@ -3,6 +3,7 @@ using kusuri.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using NodaTime;
+using NodaTime.Extensions;
 
 namespace kusuri.Classes;
 
@@ -18,11 +19,13 @@ public class PrescriptionEditor (
             return;
         }
 
+        var now = SystemClock.Instance.GetCurrentInstant();
+
         var prescription = new PrescriptionPrompt{
             Content = trimmedContent,
             Status = Status.Active,
-            CreatedAt = SystemClock.Instance.GetCurrentInstant(),
-            ModifiedAt = SystemClock.Instance.GetCurrentInstant(),
+            CreatedAt = now,
+            ModifiedAt = now,
             PatientId = patientId
         };
         await appDbContext.AddAsync(prescription);

@@ -25,7 +25,7 @@ public class PrescriptionPromptController(
             .Select(p => new PrescriptionHistory(
                 p.Id,
                 p.Content,
-                p.ModifiedAt.InZone(tokyoTimeZone).ToString("yyyy-mm-dd", null),
+                p.ModifiedAt.InZone(tokyoTimeZone).ToString("yyyy-MM-dd", null),
                 p.PatientId
 
             ))
