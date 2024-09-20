@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { useCallback } from 'react';
+
 interface IPromptCard
 {
     date: string;
@@ -13,9 +13,9 @@ interface IPromptCard
 }
 
 const PromptCard = ({ date, content }: IPromptCard) => {
-  
+  console.log("content: ", content);
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ marginBottom: "24px" }}>
       <CardContent>
         <Typography gutterBottom variant="h6" component="div">
           {date}

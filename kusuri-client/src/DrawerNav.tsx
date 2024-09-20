@@ -160,7 +160,7 @@ const DrawerNav = ({ children }:{ children: ReactNode; }) => {
           </ListItem>
         </List>
       </Drawer>
-      <Main open={open}>
+      <Main open={open} style={{ width: '100%' }}>
         <DrawerHeader />
         {children}
       </Main>

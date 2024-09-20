@@ -20,9 +20,9 @@ public class PrescriptionEditor (
 
         var prescription = new PrescriptionPrompt{
             Content = trimmedContent,
-            Status = Status.Activie,
+            Status = Status.Active,
             VersionId = 1,
-            CreatedAt = new Instant(),
+            CreatedAt = SystemClock.Instance.GetCurrentInstant(),
             PatientId = patientId
         };
         await appDbContext.AddAsync(prescription);

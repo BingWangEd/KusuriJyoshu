@@ -17,5 +17,5 @@ public class PrescriptionPrompt
 public enum Status {
     Deleted,
     Inactive,
-    Activie
+    Active
 }

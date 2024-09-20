@@ -2,7 +2,9 @@ import React, { createContext, useState, useEffect, FunctionComponent, ReactNode
 
 interface IPrompt{
     id: number;
-    prompt: string;
+    content: string;
+    date: string;
+    patientId: number;
 }
 const PrescriptionContext = createContext<IPrompt[]>([]);
 

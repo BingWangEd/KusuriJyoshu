@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import DrawerNav from "../DrawerNav"
 import { PrescriptionContextProvider } from "./usePrescriptionContext";
+import ShowPrompts from "./ShowPrompts";
 
 function EditPrompt() {
     const addPrompt = useCallback(async () => {
@@ -27,7 +28,7 @@ function EditPrompt() {
     return (
         <DrawerNav>
             <PrescriptionContextProvider patientId={2}>
-                EditPrompt
+                <ShowPrompts />
                 <button onClick={addPrompt}>add</button>
             </PrescriptionContextProvider>
         </DrawerNav>
