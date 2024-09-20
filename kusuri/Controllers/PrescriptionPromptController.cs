@@ -21,15 +21,23 @@ public class PrescriptionPromptController(
             .Where(
                 p => p.PatientId == patientId && p.Status == Status.Active
             )
+            .OrderBy(p => p.ModifiedAt)
             .Select(p => new PrescriptionHistory(
                 p.Id,
-                p.CreatedAt.InZone(tokyoTimeZone).ToString("yyyy-mm-dd", null),
                 p.Content,
+                p.ModifiedAt.InZone(tokyoTimeZone).ToString("yyyy-mm-dd", null),
                 p.PatientId
 
             ))
             .ToListAsync(cancellationToken);
         return history;
+    }
+
+    [HttpPost("edit/{id}")]
+    public async Task<IActionResult> EditPrescriptionPrompt([FromBody] string content, int id, CancellationToken cancellationToken)
+    {
+        await editor.EditPrescriptionAsync(content, id, cancellationToken);
+        return Ok("Edited prescription");
     }
 
     [HttpPost("add/{patientId}")]

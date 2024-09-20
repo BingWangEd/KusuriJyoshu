@@ -21,8 +21,8 @@ public class PrescriptionEditor (
         var prescription = new PrescriptionPrompt{
             Content = trimmedContent,
             Status = Status.Active,
-            VersionId = 1,
             CreatedAt = SystemClock.Instance.GetCurrentInstant(),
+            ModifiedAt = SystemClock.Instance.GetCurrentInstant(),
             PatientId = patientId
         };
         await appDbContext.AddAsync(prescription);
@@ -48,6 +48,7 @@ public class PrescriptionEditor (
         };
 
         prescription.Content = trimmedContent;
+        prescription.ModifiedAt = SystemClock.Instance.GetCurrentInstant();
         await appDbContext.SaveChangesAsync(cancellationToken);
     }
 
