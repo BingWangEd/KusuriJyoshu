@@ -4,6 +4,7 @@ using NodaTime;
 namespace kusuri.Models;
 
 [Index(nameof(Id), IsUnique = true)]
+[Index(nameof(PatientId))]
 public class PrescriptionPrompt
 {
     public int Id { get; set; }

@@ -1,8 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using NodaTime;
 
-namespace kusuri.Models.Models;
+namespace kusuri.Models;
 
+[Index(nameof(Id), IsUnique = true)]
 [Index(nameof(PatientId))]
 public class Chat
 {

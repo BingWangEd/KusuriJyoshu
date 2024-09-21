@@ -9,3 +9,5 @@ CREATE TABLE kusuri."PrescriptionPrompt" (
 );
 
 CREATE UNIQUE INDEX "IX_PrescriptionPrompt_Id" ON kusuri."PrescriptionPrompt" ("Id");
+
+CREATE INDEX "IX_PrescriptionPrompt_PatientId" ON kusuri."PrescriptionPrompt" ("PatientId");

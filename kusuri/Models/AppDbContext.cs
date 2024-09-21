@@ -5,6 +5,7 @@ namespace kusuri.Models;
 public class AppDbContext : DbContext
 {
     public DbSet<PrescriptionPrompt> PrescriptionPrompts { get; set; }
+    public DbSet<Chat> Chats { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseNpgsql(
@@ -24,6 +25,11 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<PrescriptionPrompt>(entity =>
         {
             entity.ToTable("PrescriptionPrompt");
+        });
+
+        modelBuilder.Entity<Chat>(entity =>
+        {
+            entity.ToTable("Chat");
         });
     }
 }
