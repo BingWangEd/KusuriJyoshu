@@ -95,7 +95,7 @@ const DrawerNav = ({ children }:{ children: ReactNode; }) => {
   };
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', height: '100%' }}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar>
@@ -160,7 +160,7 @@ const DrawerNav = ({ children }:{ children: ReactNode; }) => {
           </ListItem>
         </List>
       </Drawer>
-      <Main open={open} style={{ width: '100%' }}>
+      <Main open={open} style={{ width: '100%', display: 'flex' }}>
         <DrawerHeader />
         {children}
       </Main>

@@ -1,0 +1,28 @@
+.chatContainer
+{
+    display: flex;
+    height: 100%;
+    width:100%;
+    flex-direction: column;
+}
+
+.buffer
+{
+    flex-grow: 1;
+}
+
+.chatHistory
+{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow: scroll;
+}
+
+.chatBox
+{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+}
