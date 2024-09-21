@@ -8,7 +8,9 @@ using NodaTime.Text;
 [ApiController]
 [Route("api/[controller]")]
 public class PrescriptionPromptController(
-    AppDbContext appDbContext
+    AppDbContext appDbContext,
+    RedisService redisService,
+    EmbeddingManager embeddingManager
 ) : ControllerBase
 {
     private PrescriptionEditor editor = new PrescriptionEditor(appDbContext);
@@ -33,24 +35,35 @@ public class PrescriptionPromptController(
         return history;
     }
 
-    [HttpPost("edit/{id}")]
-    public async Task<IActionResult> EditPrescriptionPrompt([FromBody] string content, int id, CancellationToken cancellationToken)
+    [HttpPost("edit/{patientId}/prompt/{id}")]
+    public async Task<IActionResult> EditPrescriptionPrompt([FromBody] string content, int patientId, int id, CancellationToken cancellationToken)
     {
-        await editor.EditPrescriptionAsync(content, id, cancellationToken);
+        var res = await editor.EditPrescriptionAsync(content, id, cancellationToken);
+        if (!res)
+        {
+            return Ok("No change with prescription");
+        }
+
+        var embeddings = await embeddingManager.GetEmbeddings(content);
+        await redisService.CreateHash(patientId, id, content, embeddings);
+
         return Ok("Edited prescription");
     }
 
     [HttpPost("add/{patientId}")]
     public async Task<IActionResult> AddPrescriptionPrompt([FromBody] string content, int patientId, CancellationToken cancellationToken)
     {
-        await editor.AddPrescriptionAsync(content, patientId, cancellationToken );
+        var id = await editor.AddPrescriptionAsync(content, patientId, cancellationToken );
+        var embeddings = await embeddingManager.GetEmbeddings(content);
+        await redisService.CreateHash(patientId, id, content, embeddings);
         return Ok("added prescription");
     }
 
-    [HttpPost("delete/{id}")]
-    public async Task<IActionResult> DeletePrescriptionPrompt(int id, CancellationToken cancellationToken)
+    [HttpPost("delete/{patientId}/prompt/{id}")]
+    public async Task<IActionResult> DeletePrescriptionPrompt(int patientId, int id, CancellationToken cancellationToken)
     {
         await editor.DeletePrescriptionAsync(id, cancellationToken);
+        await redisService.DeleteHash(patientId, id);
         return Ok("deleted prescription");
     }
 

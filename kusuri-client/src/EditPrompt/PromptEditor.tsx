@@ -33,7 +33,6 @@ const PromptEditor = ({ label, content, save, cancel }: IPromptCard) => {
                         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                             setPrompt(event.target.value);
                         }}
-                        defaultValue={prompt}
                         style={{ width: "100%" }}
                     />
 				</Typography>

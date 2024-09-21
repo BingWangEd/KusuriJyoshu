@@ -16,7 +16,7 @@ public class TryController(
     [HttpGet("/GetEmbeddings")]
     public async Task GetEmbeddings()
     {
-        var embeddings = manager.GetEmbeddings("hello world");
+        var embeddings = await manager.GetEmbeddings("hello world");
         Console.WriteLine($"embeddings: {embeddings.Length}");
         var res = await redisService.CreateHash(2, 1, "test prompt", embeddings);
     }
@@ -31,15 +31,15 @@ public class TryController(
     public async Task TestAll()
     {
         var text1 = "hello world";
-        var embeddings1 = manager.GetEmbeddings(text1);
+        var embeddings1 = await manager.GetEmbeddings(text1);
         var res1 = await redisService.CreateHash(2, 2, text1, embeddings1);
 
         var text2 = "chemistry class";
-        var embeddings2 = manager.GetEmbeddings(text2);
+        var embeddings2 = await manager.GetEmbeddings(text2);
         var res2 = await redisService.CreateHash(2, 3, text2, embeddings2);
 
         var query = "hi world";
-        var queryEmbeddings = manager.GetEmbeddings(query);
+        var queryEmbeddings = await manager.GetEmbeddings(query);
 
         await redisService.FindClosetestAsync(2, queryEmbeddings);
     }

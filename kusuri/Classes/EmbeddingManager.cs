@@ -9,7 +9,7 @@ using Value = Google.Protobuf.WellKnownTypes.Value;
 namespace kusuri.Classes;
 public class EmbeddingManager
 {
-    public byte[] GetEmbeddings(string text)
+    public async Task<byte[]> GetEmbeddings(string text)
     {
         var projectId = "my-project-1512957438502";
         var model = "textembedding-gecko@001";
@@ -33,7 +33,7 @@ public class EmbeddingManager
             })
         };
 
-        var response = predictionServiceClient.Predict(endpoint, instances, null);
+        var response = await predictionServiceClient.PredictAsync(endpoint, instances, null);
         var values = response.Predictions.First().StructValue.Fields["embeddings"].StructValue.Fields["values"].ListValue.Values;
 
         var res = values.Select(v => v.NumberValue).ToArray();

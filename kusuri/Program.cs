@@ -13,6 +13,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<kusuri.Models.AppDbContext>();
 builder.Services.AddControllers();
 builder.Services.AddSingleton(serviceProvider => new RedisService("localhost:6379"));
+builder.Services.AddSingleton(serviceProvider => new EmbeddingManager());
 
 var app = builder.Build();
 

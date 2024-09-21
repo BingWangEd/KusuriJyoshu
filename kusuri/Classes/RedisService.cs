@@ -27,6 +27,13 @@ public class RedisService
         return true;
     }
 
+    public async Task<bool> DeleteHash(int patientId, int promptId)
+    {
+        var hashKey = $"{patientId}:{promptId}";
+        await _db.KeyDeleteAsync(hashKey);
+        return true;
+    }
+
     // Create index on vector field to support vector similarity semantic search
     public async Task<bool> CreateIndex(int patientId)
     {

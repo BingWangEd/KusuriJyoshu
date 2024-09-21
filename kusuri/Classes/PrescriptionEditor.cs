@@ -10,13 +10,13 @@ namespace kusuri.Classes;
 public class PrescriptionEditor (
     AppDbContext appDbContext
 ) : IPrescriptionEditor {    
-    public async Task AddPrescriptionAsync(string content, int patientId, CancellationToken cancellationToken)
+    public async Task<int> AddPrescriptionAsync(string content, int patientId, CancellationToken cancellationToken)
     {
         var trimmedContent = content.Trim();
         if (string.IsNullOrEmpty(trimmedContent))
         {
             Console.WriteLine("Nothing to save");
-            return;
+            return 0;
         }
 
         var now = SystemClock.Instance.GetCurrentInstant();
@@ -30,9 +30,11 @@ public class PrescriptionEditor (
         };
         await appDbContext.AddAsync(prescription);
         await appDbContext.SaveChangesAsync(cancellationToken);
+
+        return prescription.Id;
     }
 
-    public async Task EditPrescriptionAsync(string content, int prescriptionId, CancellationToken cancellationToken)
+    public async Task<bool> EditPrescriptionAsync(string content, int prescriptionId, CancellationToken cancellationToken)
     {
         var trimmedContent = content.Trim();
         var prescription = await appDbContext.PrescriptionPrompts
@@ -47,15 +49,16 @@ public class PrescriptionEditor (
         if (trimmedContent == prescription.Content)
         {
             Console.WriteLine("Nothing to change");
-            return;
+            return false;
         };
 
         prescription.Content = trimmedContent;
         prescription.ModifiedAt = SystemClock.Instance.GetCurrentInstant();
         await appDbContext.SaveChangesAsync(cancellationToken);
+        return true;
     }
 
-    public async Task DeletePrescriptionAsync(int id, CancellationToken cancellationToken)
+    public async Task<bool> DeletePrescriptionAsync(int id, CancellationToken cancellationToken)
     {
         var prescription = await appDbContext.PrescriptionPrompts.Where(
             p => p.Id == id
@@ -68,5 +71,6 @@ public class PrescriptionEditor (
 
         prescription.Status = Status.Deleted;
         await appDbContext.SaveChangesAsync(cancellationToken);
+        return true;
     }
 }

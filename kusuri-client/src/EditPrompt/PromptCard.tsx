@@ -23,7 +23,7 @@ const PromptCard = ({ id, date, content, patientId }: IPromptCard) => {
 
 	const deletePrompt = useCallback(async () => {
 		try {
-			const response = await fetch(`/api/PrescriptionPrompt/delete/${id}`, {
+			const response = await fetch(`/api/PrescriptionPrompt/delete/${patientId}/prompt/${id}`, {
 				method: "POST",
 			});
 
@@ -40,7 +40,7 @@ const PromptCard = ({ id, date, content, patientId }: IPromptCard) => {
 
 	const savePrompt = useCallback(async (content: string) => {
 		try {
-			const response = await fetch(`/api/PrescriptionPrompt/edit/${id}`, {
+			const response = await fetch(`/api/PrescriptionPrompt/edit/${patientId}/prompt/${id}`, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
             	body: JSON.stringify(content)
