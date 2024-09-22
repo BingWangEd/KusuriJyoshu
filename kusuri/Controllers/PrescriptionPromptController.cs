@@ -27,7 +27,6 @@ public class PrescriptionPromptController(
                 p.Content,
                 p.ModifiedAt.InZone(tokyoTimeZone).ToString("yyyy-MM-dd", null),
                 p.PatientId
-
             ))
             .ToListAsync(cancellationToken);
         return history;
