@@ -1,0 +1,11 @@
+.editPromptContainer
+{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.buffer
+{
+    flex-grow: 1;
+}

@@ -4,6 +4,7 @@ import { PrescriptionContextProvider } from "./usePrescriptionContext";
 import ShowPrompts from "./ShowPrompts";
 import AddIcon from '@mui/icons-material/Add';
 import PromptEditor from "./PromptEditor";
+import './editPrompt.css';
 
 function EditPrompt() {
     const [adding, setAdding] = useState(false);
@@ -33,9 +34,12 @@ function EditPrompt() {
     return (
         <DrawerNav>
             <PrescriptionContextProvider patientId={2}>
+              <div className="editPromptContainer">
+                <div className="buffer"></div>
                 <ShowPrompts />
                 {adding && <PromptEditor label={"処方追加"} content={""} save={savePrompt} cancel={() => setAdding(false)} />}
-                {!adding && <button onClick={addPrompt}><AddIcon /></button>}
+                {!adding && <button onClick={addPrompt} style={{display: 'inline-block'}}><AddIcon /></button>}
+              </div>
             </PrescriptionContextProvider>
         </DrawerNav>
     )
