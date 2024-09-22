@@ -54,6 +54,7 @@ public class PrescriptionPromptController(
         var id = await editor.AddPrescriptionAsync(content, patientId, cancellationToken );
         var embeddings = await embeddingManager.GetEmbeddings(content);
         await redisService.CreateHash(patientId, id, content, embeddings);
+        await redisService.CreateIndex(patientId);
         return Ok("added prescription");
     }
 

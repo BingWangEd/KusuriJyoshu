@@ -41,6 +41,6 @@ public class TryController(
         var query = "hi world";
         var queryEmbeddings = await manager.GetEmbeddings(query);
 
-        await redisService.FindClosetestAsync(2, queryEmbeddings);
+        await redisService.FindClosestAsync(2, queryEmbeddings);
     }
 }

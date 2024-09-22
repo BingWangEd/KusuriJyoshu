@@ -12,7 +12,7 @@ public class EmbeddingManager
     public async Task<byte[]> GetEmbeddings(string text)
     {
         var projectId = "my-project-1512957438502";
-        var model = "textembedding-gecko@001";
+        var model = "textembedding-gecko-multilingual@001";
         var locationId = "us-central1";
         var publisher = "google";
     

@@ -3,14 +3,29 @@ import { useCallback, useState } from "react";
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 
 interface IChatBox {
-	
+
 }
 
 const ChatBox = ({  }: IChatBox) => {
+    const patientId = 2;
     const [message, setMessage] = useState("");
-    const sendMessage = useCallback(() => {
-        
-    }, []);
+    const sendMessage = useCallback(async () => {
+        try {
+            const response = await fetch(`/api/Chat/${patientId}`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(message)
+            });
+      
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+
+            console.log(response);
+        } catch (error) {
+            console.error(error);
+        }
+    }, [message]);
 
 	return (
         <div className="chatBox">

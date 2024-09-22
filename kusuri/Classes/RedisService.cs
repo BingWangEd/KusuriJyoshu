@@ -67,11 +67,11 @@ public class RedisService
         return false;
     }
 
-    public async Task<bool> FindClosetestAsync(int patientId, byte[] queryVector)
+    public async Task<string> FindClosestAsync(int patientId, byte[] queryVector)
     {
         var ft = _db.FT();
         var indexName = $"{patientId}_prompt";
-        var baseQuery = "*=>[KNN 1 @embedding $vector AS vector_score]"; // return 1 result
+        var baseQuery = "*=>[KNN 2 @embedding $vector AS vector_score]"; // return 5 results
         var query = new Query(baseQuery)
             .AddParam("vector", queryVector)
             .ReturnFields("prompt", "vector_score")
@@ -79,15 +79,28 @@ public class RedisService
             .Dialect(2);
         var res = await ft.SearchAsync(indexName, query);
 
-        foreach (var doc in res.Documents) {
-                Console.Write($"id: {doc.Id}, ");
-                foreach (var item in doc.GetProperties()) {
-                    Console.Write($" {item.Value}");
-                }
-                Console.WriteLine();
-            }
+        Console.WriteLine($"found closest: {res}");
 
-        return true;
+        string texts = "";
+        foreach (var doc in res.Documents) {
+            Console.Write($"id: {doc.Id}, ");
+
+            foreach (var item in doc.GetProperties()) {
+                Console.Write($" {item.Value}");
+            }
+        }
+
+        foreach (var doc in res.Documents) {
+            foreach (var item in doc.GetProperties()) {
+                if (item.Key == "prompt")
+                {
+                    texts += item.Value;
+                    texts += "\n";
+                }
+            }
+        }
+
+        return texts;
     }
 
     // Method to index (store) data in Redis

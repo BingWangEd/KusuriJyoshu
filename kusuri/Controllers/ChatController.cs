@@ -1,0 +1,49 @@
+using kusuri.Classes;
+using kusuri.Models;
+using Microsoft.AspNetCore.Mvc;
+using NodaTime;
+
+[Route("[controller]")]
+public class ChatController(
+    AppDbContext appDbContext,
+    RedisService redisService,
+    EmbeddingManager embeddingManager
+) : ControllerBase
+{
+
+    [HttpPost("{patientId}")]
+    public async Task<IActionResult> Chat([FromBody] string content, int patientId, CancellationToken cancellationToken)
+    {
+        var projectId = "my-project-1512957438502";
+        var location = "us-central1";
+        var publisher = "google";
+        var model = "gemini-1.5-flash-001";
+        var chatSession = new ChatSession($"projects/{projectId}/locations/{location}/publishers/{publisher}/models/{model}", location);
+
+        var queryVector = await embeddingManager.GetEmbeddings(content);
+        var context = await redisService.FindClosestAsync(patientId, queryVector);
+
+        var edittedPrompt = $"Given the context: {context}; {content}";
+        Console.WriteLine(edittedPrompt);
+        var response = await chatSession.SendMessageAsync(edittedPrompt);
+
+        var chatUser = new Chat{
+            Content = content,
+            PatientId = patientId,
+            ByBot = false,
+            CreatedAt = SystemClock.Instance.GetCurrentInstant(),
+        };
+        await appDbContext.AddAsync(chatUser);
+
+        var chatBot = new Chat{
+            Content = response,
+            PatientId = patientId,
+            ByBot = true,
+            CreatedAt = SystemClock.Instance.GetCurrentInstant(),
+        };
+        await appDbContext.AddAsync(chatBot);
+        await appDbContext.SaveChangesAsync(cancellationToken);
+
+        return Ok(response);
+    }
+}
