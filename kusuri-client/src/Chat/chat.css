@@ -26,3 +26,21 @@
     width: 100%;
     align-items: center;
 }
+
+.chatBubble
+{
+    width: 100%;
+    display: flex;
+    margin-bottom: 24px;
+}
+
+.botResponse
+{
+    justify-content: flex-start;
+}
+
+.userPrompt
+{
+    justify-content: flex-end;
+    text-align: right;
+}

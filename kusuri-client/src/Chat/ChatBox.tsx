@@ -7,7 +7,7 @@ interface IChatBox {
 
 }
 
-interface IChat{
+export interface IChat{
     id: number | null,
     content: string,
     patientId: number,
@@ -65,7 +65,7 @@ const ChatBox = ({  }: IChatBox) => {
         <>
             <div className="chatHistory">
                 <div className="buffer"></div>
-                <ChatHistory />
+                <ChatHistory history={history} />
             </div>
             <div className="chatBox">
                 <TextField

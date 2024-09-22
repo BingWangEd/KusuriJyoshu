@@ -1,18 +1,27 @@
-import { useCallback, useEffect } from "react";
+import { Card, CardContent, Typography } from "@mui/material";
+import { IChat } from "./ChatBox";
 
 interface IChatHistory {
-	
+	history: IChat[]
 }
 
-
-
-const ChatHistory = ({  }: IChatHistory) => {
-	const patientId = 2;
-
-	
-
+const ChatHistory = ({ history }: IChatHistory) => {
 	return (
-		<>Chat History</>
+		<>{history.map((h, index) => (
+			<div key={index} className={`chatBubble ${h.byBot ? "botResponse" : "userPrompt"}`}>
+				<Card sx={{ "max-width": "80%", width: "fit-content" }}>
+					<CardContent>
+						<Typography gutterBottom variant="body1" component="div">
+							{h.createdAt}
+						</Typography>
+						<Typography variant="body2" sx={{ color: 'text.secondary' }}>
+							{h.content}
+						</Typography>
+					</CardContent>
+				</Card>
+			</div>
+		))
+		}</>
 	);
 }
 
