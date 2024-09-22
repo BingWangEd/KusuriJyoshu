@@ -35,8 +35,12 @@ function EditPrompt() {
         <DrawerNav>
             <PrescriptionContextProvider patientId={2}>
               <div className="editPromptContainer">
-                <div className="buffer"></div>
-                <ShowPrompts />
+                <div className="promptHistory">
+                  <div className="scrollContent">
+                    <div className="buffer"></div>
+                    <ShowPrompts />
+                  </div>
+                </div>
                 {adding && <PromptEditor label={"処方追加"} content={""} save={savePrompt} cancel={() => setAdding(false)} />}
                 {!adding && <button onClick={addPrompt} style={{display: 'inline-block'}}><AddIcon /></button>}
               </div>

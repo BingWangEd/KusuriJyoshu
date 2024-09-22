@@ -21,7 +21,7 @@ const PromptEditor = ({ label, content, save, cancel }: IPromptCard) => {
     const { refetch } = usePrescriptionContext();
 
 	return (
-		<Card sx={{ marginBottom: "24px" }}>
+		<Card sx={{ marginBottom: "24px", overflow: "scroll" }}>
 			<CardContent>
 				<Typography variant="body2" sx={{ color: 'text.secondary' }}>
                     <TextField
