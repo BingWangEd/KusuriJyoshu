@@ -9,7 +9,7 @@ const ChatHistory = ({ history }: IChatHistory) => {
 	return (
 		<>{history.map((h, index) => (
 			<div key={index} className={`chatBubble ${h.byBot ? "botResponse" : "userPrompt"}`}>
-				<Card sx={{ "max-width": "80%", width: "fit-content" }}>
+				<Card sx={{ "maxWidth": "80%", width: "fit-content" }}>
 					<CardContent>
 						<Typography gutterBottom variant="body1" component="div">
 							{h.createdAt}

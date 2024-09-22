@@ -1,5 +1,5 @@
 import { TextField } from "@mui/material";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import ChatHistory from "./ChatHistory";
 
@@ -19,8 +19,9 @@ const ChatBox = ({  }: IChatBox) => {
     const patientId = 2;
     const [message, setMessage] = useState("");
     const [history, setHistory] = useState<IChat[]>([]);
+    const dummyLastRef = useRef<HTMLDivElement>(null);
+    const previousHistory = useRef<IChat[] | undefined>();
 
-    console.log("history: ", history);
     const getHistory = useCallback(async () => {
         try {
             const response = await fetch(`/api/Chat/GetHistory/${patientId}`, {
@@ -38,10 +39,6 @@ const ChatBox = ({  }: IChatBox) => {
             console.error(error);
         }
     }, []);
-	
-	useEffect(() => {
-        getHistory();
-	}, []);
 
     const sendMessage = useCallback(async () => {
         try {
@@ -61,11 +58,26 @@ const ChatBox = ({  }: IChatBox) => {
         }
     }, [message]);
 
+    useEffect(() => {
+        if (!previousHistory.current && history.length > 0) {
+            dummyLastRef.current?.scrollIntoView()
+        }
+    
+        if (history.length > 0) {
+            previousHistory.current = history;
+        }
+    }, [history])
+
+    useEffect(() => {
+        getHistory();
+	}, []);
+
 	return (
         <>
             <div className="chatHistory">
                 <div className="buffer"></div>
                 <ChatHistory history={history} />
+                <div ref={dummyLastRef}></div>
             </div>
             <div className="chatBox">
                 <TextField
