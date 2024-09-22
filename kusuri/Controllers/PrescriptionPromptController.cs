@@ -3,10 +3,8 @@ using kusuri.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NodaTime;
-using NodaTime.Text;
 
-[ApiController]
-[Route("api/[controller]")]
+[Route("[controller]")]
 public class PrescriptionPromptController(
     AppDbContext appDbContext,
     RedisService redisService,
