@@ -26,7 +26,7 @@ interface IPrescriptionContextProvider {
 export const PrescriptionContextProvider: FunctionComponent<IPrescriptionContextProvider> = ({ patientId, children }) => {
   const [prompts, setPrompts] = useState<IPrompt[]>([]);
   const [loading, setLoading] = useState(true);
-
+  console.log(`loading data: ${loading}`);
   const fetchData = useCallback(async () => {
     try {
       const response = await fetch(`/api/PrescriptionPrompt/history/${encodeURIComponent(patientId)}`);
