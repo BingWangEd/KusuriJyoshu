@@ -62,10 +62,22 @@ public class PrescriptionPromptController(
             .Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None)
             .Where(s => !string.IsNullOrEmpty(s))
             .ToList();
-        var chunkSize = contentChunks.Count;
+
+        List<string> contentRes = [];
+        int iterationSize = 5;
+        for (int i = 0; i < contentChunks.Count; i += iterationSize)
+        {
+            var text = "";
+            for (int j = 0; j < iterationSize && i + j < contentChunks.Count; j += 1)
+            {
+                text += contentChunks[j];
+            }
+            contentRes.Add(text);
+        }
+        var chunkSize = contentRes.Count;
         for (var i = 0; i < chunkSize; i++)
         {
-            var chunk = contentChunks[i];
+            var chunk = contentRes[i];
             var embeddings = await embeddingManager.GetEmbeddings(chunk);
             await redisService.CreateHash(patientId, promptId, i, chunk, embeddings);
         }

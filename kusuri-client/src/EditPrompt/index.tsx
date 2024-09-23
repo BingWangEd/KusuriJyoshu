@@ -41,9 +41,9 @@ function EditPrompt() {
                     <ShowPrompts />
                   </div>
                 </div>
-                {adding && <PromptEditor label={"処方追加"} content={""} save={savePrompt} cancel={() => setAdding(false)} />}
-                {!adding && <button onClick={addPrompt} style={{display: 'inline-block'}}><AddIcon /></button>}
-              </div>
+                  {adding && <PromptEditor label={"処方追加"} content={""} save={savePrompt} cancel={() => setAdding(false)} />}
+                  {!adding && <button onClick={addPrompt} style={{display: 'inline-block'}}><AddIcon /></button>}
+                </div>
             </PrescriptionContextProvider>
         </DrawerNav>
     )

@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { TextField } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
 import { usePrescriptionContext } from './usePrescriptionContext';
+import { LoadingButton } from '@mui/lab';
 
 interface IPromptCard {
 	content: string;
@@ -19,9 +20,10 @@ interface IPromptCard {
 const PromptEditor = ({ label, content, save, cancel }: IPromptCard) => {
     const [prompt, setPrompt] = useState(content);
     const { refetch } = usePrescriptionContext();
+    const [sending, setSending] = useState(false);
 
 	return (
-		<Card sx={{ marginBottom: "24px", overflow: "scroll" }}>
+		<Card sx={{ marginBottom: "24px", overflow: "scroll", minHeight: "230px" }}>
 			<CardContent>
 				<Typography variant="body2" sx={{ color: 'text.secondary' }}>
                     <TextField
@@ -38,11 +40,19 @@ const PromptEditor = ({ label, content, save, cancel }: IPromptCard) => {
 				</Typography>
 			</CardContent>
 			<CardActions>
-				<Button size="small" onClick={async () => {
-                    await save(prompt);
-                    refetch();
-                    cancel();
-                }}><SaveIcon /></Button>
+                {sending ? (
+                    <LoadingButton loading loadingPosition="start" startIcon={<SaveIcon />}>
+                        送信中...
+                    </LoadingButton>
+                ) : (
+                    <Button size="small" onClick={async () => {
+                        setSending(true);
+                        await save(prompt);
+                        refetch();
+                        cancel();
+                    }}><SaveIcon /></Button>
+                )}
+
                 <Button size="small" onClick={cancel}><ClearIcon /></Button>
 			</CardActions>
 		</Card>

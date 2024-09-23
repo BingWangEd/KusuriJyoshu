@@ -25,7 +25,7 @@ public class ChatController(
         var queryVector = await embeddingManager.GetEmbeddings(content);
         var context = await redisService.FindClosestAsync(patientId, queryVector);
 
-        var edittedPrompt = $"This is the prescription related information of the patient: {context}; According to this information, {content}";
+        var edittedPrompt = $"This is the prescription related information of the patient: {context}; According to this information, {content}. Please answer in Japanese.";
         Console.WriteLine(edittedPrompt);
         var response = await chatSession.SendMessageAsync(edittedPrompt);
 
