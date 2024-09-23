@@ -17,7 +17,7 @@ public class ChatController(
     public async Task<IActionResult> Chat([FromBody] string content, int patientId, CancellationToken cancellationToken)
     {
         var projectId = "my-project-1512957438502";
-        var location = "us-central1";
+        var location = "asia-northeast1";
         var publisher = "google";
         var model = "gemini-1.5-pro";
         var chatSession = new ChatSession($"projects/{projectId}/locations/{location}/publishers/{publisher}/models/{model}", location);

@@ -14,7 +14,7 @@ public class EmbeddingManager
     public EmbeddingManager() {
         var projectId = "my-project-1512957438502";
         var model = "textembedding-gecko-multilingual@001";
-        var locationId = "us-central1";
+        var locationId = "asia-northeast1";
         var publisher = "google";
         predictionServiceClient = new PredictionServiceClientBuilder
         {
