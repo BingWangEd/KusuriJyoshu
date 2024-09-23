@@ -33,7 +33,7 @@ function EditPrompt() {
 
     return (
         <DrawerNav>
-            <PrescriptionContextProvider patientId={2}>
+            <PrescriptionContextProvider patientId={patientId}>
               <div className="editPromptContainer">
                 <div className="promptHistory">
                   <div className="scrollContent">
