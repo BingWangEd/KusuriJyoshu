@@ -9,7 +9,7 @@ import './editPrompt.css';
 function EditPrompt() {
     const [adding, setAdding] = useState(false);
     const addPrompt = () => setAdding(true);
-    const patientId = 2;
+    const patientId = 1;
   
     const savePrompt = useCallback(async (content: string) => {
         try {

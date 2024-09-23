@@ -18,7 +18,7 @@ export interface IChat{
 }
 
 const ChatBox = ({  }: IChatBox) => {
-    const patientId = 2;
+    const patientId = 1;
     const [message, setMessage] = useState("");
     const [history, setHistory] = useState<IChat[]>([]);
     const [sending, setSending] = useState(false);
