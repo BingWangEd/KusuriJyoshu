@@ -19,7 +19,7 @@ public class ChatController(
         var projectId = "my-project-1512957438502";
         var location = "us-central1";
         var publisher = "google";
-        var model = "gemini-1.5-flash-001";
+        var model = "gemini-1.5-pro";
         var chatSession = new ChatSession($"projects/{projectId}/locations/{location}/publishers/{publisher}/models/{model}", location);
 
         var queryVector = await embeddingManager.GetEmbeddings(content);
