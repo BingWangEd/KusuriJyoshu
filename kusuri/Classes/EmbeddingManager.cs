@@ -9,19 +9,22 @@ using Value = Google.Protobuf.WellKnownTypes.Value;
 namespace kusuri.Classes;
 public class EmbeddingManager
 {
-    public async Task<byte[]> GetEmbeddings(string text)
-    {
+    private PredictionServiceClient predictionServiceClient;
+    private EndpointName endpoint;
+    public EmbeddingManager() {
         var projectId = "my-project-1512957438502";
         var model = "textembedding-gecko-multilingual@001";
         var locationId = "us-central1";
         var publisher = "google";
-    
-        var predictionServiceClient = new PredictionServiceClientBuilder
+        predictionServiceClient = new PredictionServiceClientBuilder
         {
             Endpoint = $"{locationId}-aiplatform.googleapis.com"
         }.Build();
-        var endpoint = EndpointName.FromProjectLocationPublisherModel(projectId, locationId, publisher, model);
-
+        endpoint = EndpointName.FromProjectLocationPublisherModel(projectId, locationId, publisher, model);
+    }
+    
+    public async Task<byte[]> GetEmbeddings(string text)
+    {
         var instances = new List<Value>
         {
             Value.ForStruct(new()

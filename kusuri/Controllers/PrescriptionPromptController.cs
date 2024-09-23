@@ -41,8 +41,8 @@ public class PrescriptionPromptController(
             return Ok("No change with prescription");
         }
 
-        var embeddings = await embeddingManager.GetEmbeddings(content);
-        await redisService.CreateHash(patientId, id, content, embeddings);
+        await redisService.DeleteHash(patientId, id);
+        await CreatePromptHash(content, patientId, id);
 
         return Ok("Edited prescription");
     }
@@ -51,17 +51,37 @@ public class PrescriptionPromptController(
     public async Task<IActionResult> AddPrescriptionPrompt([FromBody] string content, int patientId, CancellationToken cancellationToken)
     {
         var id = await editor.AddPrescriptionAsync(content, patientId, cancellationToken );
-        var embeddings = await embeddingManager.GetEmbeddings(content);
-        await redisService.CreateHash(patientId, id, content, embeddings);
+        await CreatePromptHash(content, patientId, id);
         await redisService.CreateIndex(patientId);
         return Ok("added prescription");
+    }
+
+    private async Task CreatePromptHash(string content, int patientId, int promptId)
+    {
+        var contentChunks = content
+            .Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None)
+            .Where(s => !string.IsNullOrEmpty(s))
+            .ToList();
+        var chunkSize = contentChunks.Count;
+        for (var i = 0; i < chunkSize; i++)
+        {
+            var chunk = contentChunks[i];
+            var embeddings = await embeddingManager.GetEmbeddings(chunk);
+            await redisService.CreateHash(patientId, promptId, i, chunk, embeddings);
+        }
+
+        await redisService.SetAsync($"{patientId}:{promptId}_keys", chunkSize);
     }
 
     [HttpPost("delete/{patientId}/prompt/{id}")]
     public async Task<IActionResult> DeletePrescriptionPrompt(int patientId, int id, CancellationToken cancellationToken)
     {
         await editor.DeletePrescriptionAsync(id, cancellationToken);
+        
         await redisService.DeleteHash(patientId, id);
+        await redisService.DeleteIndex(patientId);
+        await redisService.KeyDeleteAsync($"{patientId}:{id}_keys");
+    
         return Ok("deleted prescription");
     }
 
