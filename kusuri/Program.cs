@@ -25,7 +25,9 @@ if (app.Environment.IsDevelopment())
 
 if (!app.Environment.IsDevelopment())
 {
+    Console.WriteLine("Not development");
     app.UseHttpsRedirection();
+    app.UseStaticFiles();
 }
 
 app.UseHttpsRedirection();
@@ -33,5 +35,9 @@ app.UseHttpsRedirection();
 app.MapControllerRoute(
     name: "default",
     pattern: "api/{controller=Home}/{action=Index}/{id?}");
+
+app.MapFallbackToFile("index.html");
+
+app.UseCors("AllowAll");
 
 app.Run();

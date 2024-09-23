@@ -366,3 +366,6 @@ _Pvt_Extensions
 
 # Ignore the .sh files
 *.sh
+
+# Ignore .DS_Store
+.DS_Store

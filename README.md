@@ -37,3 +37,12 @@ curl "https://generativelanguage.googleapis.com/v1beta/models/text-embedding-004
 ```
 FT.INFO <indexname>
 ```
+
+# For deployment
+Under client `npm run build` to build files and move built react app under `/kusuri/wwwroot/`
+
+Publish app
+```
+dotnet publish --configuration Release
+dotnet /Users/bingwang/KusuriJyoshu/kusuri/bin/Release/net8.0/kusuri.dll
+```
